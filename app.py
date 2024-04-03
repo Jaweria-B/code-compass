@@ -1,12 +1,7 @@
 import streamlit as st
-from routes.home import home_page
+from routes.home.home import home_page
 
-# Define functions for different routes/pages
-
-def home_page():
-    st.title("Welcome to Your Educational Platform")
-    # Add content for the home page
-    st.write("Explore personalized learning paths, quizzes, real-world projects, and more!")
+# Define functions for different routes/pages --- will be changed later into separate route pages
 
 def learning_paths_page():
     st.title("Learning Paths")
