@@ -50,3 +50,50 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+// open ai ---
+import streamlit as st
+import openai
+
+# Set your OpenAI API key
+openai.api_key = "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"
+
+def generate_mcq(prompt):
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=prompt,
+        max_tokens=100,
+        temperature=0.5,
+        n=1,
+        stop="\n"
+    )
+
+    # Extract the generated MCQ from the response
+    mcq = response.choices[0].text.strip()
+
+    # Split the MCQ into question and choices
+    question, choices = mcq.split("\n")[0], mcq.split("\n")[1:]
+
+    return question, choices
+
+def main():
+    st.title("MCQ (Multiple Choice Questions) Generator")
+
+    # Input prompt from the user
+    prompt = st.text_area("Enter your prompt here:", height=150)
+
+    # Generate MCQs button
+    if st.button("Generate MCQs"):
+        if prompt:
+            question, choices = generate_mcq(prompt)
+            st.write("Generated MCQ:")
+            st.write("Question:", question)
+            st.write("Choices:")
+            for idx, choice in enumerate(choices):
+                st.write(f"{idx+1}. {choice}")
+        else:
+            st.error("Please enter a prompt.")
+
+if __name__ == "__main__":
+    main()
