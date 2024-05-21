@@ -105,31 +105,30 @@ def home_page():
         input = handle_user_input(user_input)
         topic, input_message = input[0], input[1]
     
-    if topic != False:
-        learning_path = generate_paths(topic, difficulty_level)
+        if topic != False:
+            learning_path = generate_paths(topic, difficulty_level)
 
-    # Constructing the prompt string
-    prompt = f"""
-    You are an AI assistant that helps people find information.
+        prompt = f"""
+        You are an AI assistant that helps people find information.
 
-    See the {input_message}, if {topic} is not False, that means user wants to know abput the learning path of some technology, that learning path is in {learning_path}, return that learning path to user. 
-    
-    If {topic} is False, means user has not entered any technology name, and you simply answer him accoring the input statement {input_message}
-    """
-    message_text = [{"role":"system","content":prompt}]
+        See the {input_message}, if {topic} is not False, that means user wants to know abput the learning path of some technology, that learning path is in {learning_path}, return that learning path to user. 
+        
+        If {topic} is False, you simply answer him accoring the input statement {input_message} as an AI assistant
+        """
+        message_text = [{"role":"system","content":prompt}]
 
 
-    # Create a completion request to generate text using the GPT-4 Turbo model
-    completion = client.chat.completions.create(
-        model="code-compass-gpt-4", # model = "deployment_name"
-        messages = message_text,
-        temperature=0.7,
-        max_tokens=800,
-        top_p=0.95,
-        frequency_penalty=0,
-        presence_penalty=0,
-        stop=None
-    )
-    
+        # Create a completion request to generate text using the GPT-4 Turbo model
+        completion = client.chat.completions.create(
+            model="code-compass-gpt-4", # model = "deployment_name"
+            messages = message_text,
+            temperature=0.7,
+            max_tokens=800,
+            top_p=0.95,
+            frequency_penalty=0,
+            presence_penalty=0,
+            stop=None
+        )
+        
 
-    completion.choices[0].message.content
+        completion.choices[0].message.content

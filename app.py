@@ -1,5 +1,6 @@
 import streamlit as st
 from routes.home.home import home_page
+from routes.about.about import about_us
 
 # Define functions for different routes/pages --- will be changed later into separate route pages
 
@@ -39,9 +40,10 @@ def settings_page():
     st.write("Customize your experience, adjust notification preferences, and manage account settings.")
 
 def about_page():
-    st.title("About Us")
-    # Add content for the about us page
-    st.write("Learn more about the app, its mission, team members, and contact details.")
+    about_us()
+    # st.title("About Us")
+    # # Add content for the about us page
+    # st.write("Learn more about the app, its mission, team members, and contact details.")
 
 def help_page():
     st.title("Help and Support")
@@ -64,20 +66,16 @@ def main():
 
     if selected_page == "Home":
         home_page()
-    elif selected_page == "Learning Paths":
-        learning_paths_page()
     elif selected_page == "Quizzes":
         quizzes_page()
-    elif selected_page == "Real-world Projects":
-        projects_page()
     elif selected_page == "User Profile":
         profile_page()
-    elif selected_page == "Community Hub":
-        community_page()
-    elif selected_page == "AI Recommendations":
-        recommendations_page()
-    elif selected_page == "Settings":
-        settings_page()
+    # elif selected_page == "Community Hub":
+    #     community_page()
+    # elif selected_page == "AI Recommendations":
+    #     recommendations_page()
+    # elif selected_page == "Settings":
+    #     settings_page()
     elif selected_page == "About Us":
         about_page()
     elif selected_page == "Help and Support":
