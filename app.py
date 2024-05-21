@@ -1,5 +1,6 @@
 import streamlit as st
 from routes.home.home import home_page
+from routes.quiz.quiz import quiz
 from routes.about.about import about_us
 
 # Define functions for different routes/pages --- will be changed later into separate route pages
@@ -13,6 +14,7 @@ def quizzes_page():
     st.title("Quizzes")
     # Add content for the quizzes page
     st.write("Test your knowledge and understanding with interactive quizzes on various topics.")
+    quiz()
 
 def projects_page():
     st.title("Real-world Projects")
@@ -41,9 +43,6 @@ def settings_page():
 
 def about_page():
     about_us()
-    # st.title("About Us")
-    # # Add content for the about us page
-    # st.write("Learn more about the app, its mission, team members, and contact details.")
 
 def help_page():
     st.title("Help and Support")
@@ -54,7 +53,7 @@ def help_page():
 def select_page():
     page = st.sidebar.selectbox(
         "Select Page",
-        ["Home", "Learning Paths", "Quizzes", "Real-world Projects", "User Profile", 
+        ["Home", "Quizzes", "User Profile", 
          "Community Hub", "AI Recommendations", "Settings", "About Us", "Help and Support"]
     )
     return page
