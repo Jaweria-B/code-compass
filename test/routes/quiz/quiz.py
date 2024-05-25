@@ -22,8 +22,7 @@ def generate_quiz(prompt):
         stop=None
     )
     
-    print(completion.choices[0].message['content'])
-    return completion.choices[0].message['content']
+    return completion.choices[0].message.content
 
 def quiz():
     st.title("Quiz Generator")
@@ -56,8 +55,6 @@ def quiz():
             For MCQs, provide options for each question.
             For Fill In the Blanks, provide sentences with blanks.
             For Short Questions, provide open-ended questions.
-
-            return the Quiz in Python and Streamlit. 
             """
 
             quiz = generate_quiz(prompt)

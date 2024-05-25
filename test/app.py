@@ -1,5 +1,5 @@
 import streamlit as st
-from routes.home.home import home_page
+# from routes.home.home import home_page
 from routes.quiz.quiz import quiz
 from routes.about.about import about_us
 
