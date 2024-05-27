@@ -1,8 +1,6 @@
 from dotenv import load_dotenv
 import os
-import json
 from openai import AzureOpenAI
-import time
 from IPython.display import clear_output
 
 load_dotenv()
@@ -51,5 +49,5 @@ def roadmap(query: str):
     )
 
     learning_path = completion.choices[0].message.content
-    
+
     return learning_path

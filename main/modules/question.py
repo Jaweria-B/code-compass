@@ -11,7 +11,7 @@ def asking_questions():
     answers["experience_level"] = st.selectbox("2. What is your current experience level with this language?", ("Beginner", "Intermediate", "Advanced"))
 
     answers["learning_goal"] = st.selectbox("3. What is your primary goal in learning this language?",
-    ("Web Development", "Data Science", "Mobile App Development", "Game Development", "Other"))
+    ("Web Development", "Machine Learning", "Data Science", "Mobile App Development", "Game Development", "Other"))
 
     answers["time_commitment"] = st.selectbox("4. How much time are you willing to dedicate to learning this language per week?",
     ("Less than 5 hours", "5-10 hours", "10-20 hours", "More than 20 hours"))

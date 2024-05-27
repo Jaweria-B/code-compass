@@ -1,10 +1,10 @@
-# streamlit_app.py
-
 import streamlit as st
+
 from modules.question import asking_questions
+
 from modules import LearningPath
-# from modules import assignment
-# from modules.explain import topic_explanation
+from modules.explain import topic_explanation
+from modules import assignment
 from modules import code_checker
 
 if 'answers' not in st.session_state:
@@ -103,21 +103,21 @@ def main():
         else:
             show("RoadMap Generator 🗺️", st.session_state.content["RoadMap"])
 
-    # elif page == "Topic Explainer 📚":
-    #     if st.session_state.content is None or st.session_state.content.get("Explain") is None:
-    #         response = topic_explanation(Topic_query)
-    #         show("Topic Explainer 📚", response)
-    #         st.session_state.content = {"Explain": response}
-    #     else:
-    #         show("Topic Explainer 📚", st.session_state.content["Explain"])
+    elif page == "Topic Explainer 📚":
+        if st.session_state.content is None or st.session_state.content.get("Explain") is None:
+            response = topic_explanation(Topic_query)
+            show("Topic Explainer 📚", response)
+            st.session_state.content = {"Explain": response}
+        else:
+            show("Topic Explainer 📚", st.session_state.content["Explain"])
 
-    # elif page == "Assignment Generator 📝":
-    #     if st.session_state.content is None or st.session_state.content.get("assignment") is None:
-    #         response = assignment.create_assignment(assignment_query)
-    #         show("Assignment Generator 📝", response)
-    #         st.session_state.content = {"assignment": response}
-    #     else:
-    #         show("Assignment Generator 📝", st.session_state.content["assignment"])
+    elif page == "Assignment Generator 📝":
+        if st.session_state.content is None or st.session_state.content.get("assignment") is None:
+            response = assignment.create_assignment(assignment_query)
+            show("Assignment Generator 📝", response)
+            st.session_state.content = {"assignment": response}
+        else:
+            show("Assignment Generator 📝", st.session_state.content["assignment"])
 
     elif page == "Code Checker ✔️":
         code_checker.show()
