@@ -1,11 +1,11 @@
 import streamlit as st
 
-from modules.question import asking_questions
+from pages.question import asking_questions
 
-from modules import LearningPath
-from modules.explain import topic_explanation
-from modules import assignment
-from modules import code_checker
+from pages import LearningPath
+from pages.explain import topic_explanation
+from pages import assignment
+from pages import code_checker
 
 if 'answers' not in st.session_state:
     st.session_state.answers = None
@@ -17,10 +17,11 @@ def show(title,response):
     st.markdown(f"<h1 style='color: white;'>{title}</h1>", unsafe_allow_html=True)
     # Add background image
     #https://wallpapercave.com/wp/wp6763962.png
+
     page_element="""
     <style>
     [data-testid="stAppViewContainer"]{
-    background-image: url("https://wallpaperboat.com/wp-content/uploads/2019/10/coding-16.jpg");
+    background-image: url("https://plus.unsplash.com/premium_vector-1711987875549-d0ba34191e70?bg=FFFFFF&w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjl8fGNvZGluZ3xlbnwwfHwwfHx8MA%3D%3D");
     background-size: cover;
     }
     </style>
@@ -34,7 +35,7 @@ def show(title,response):
     <style>
     .text-box {
         background-color: rgba(255, 255, 255, 0.9); /* Adjust opacity here */
-        padding: 5px;
+        padding: 15px 15px 15px 20px;
         border-radius: 20px;
         box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
         color: black !important;
@@ -42,7 +43,7 @@ def show(title,response):
         width: 120%; /* Adjust width as needed */
         height: auto; /* Adjust height as needed */
     }
-    h1, h2, h3, h4, h5, h6 {
+    .text-box h1, h2, h3, h4, h5, h6 {
         color: black !important; /* Ensure text color is black */
     }
     </style>
@@ -68,23 +69,17 @@ page_options = {
 }
 
 def main():
-    st.title("Welcome to Code Compass")
     st.sidebar.title("Code Compass Options")
 
     page = st.sidebar.radio("Go to", list(page_options.keys()))
 
     if page == "Home 🏠":
+        st.title("Welcome to Code Compass")
         st.session_state.answers = None  
         st.session_state.content = None     
 
     if st.session_state.answers is None:
         st.session_state.answers = asking_questions()
-
-    content_dict = {
-        "RoadMap": None,
-        "Explain": None,
-        "assignment": None,
-    }
     
 
     Topic_query = f'Topic:{st.session_state.answers["topic_today"]} Language: {st.session_state.answers["language"]}, Experience Level: {st.session_state.answers["experience_level"]}, Learning_method: {st.session_state.answers["learning_methods"]}'
