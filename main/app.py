@@ -7,6 +7,11 @@ from modules import LearningPath
 # from modules.explain import topic_explanation
 from modules import code_checker
 
+if 'answers' not in st.session_state:
+    st.session_state.answers = None
+if 'content' not in st.session_state:
+    st.session_state.content = None
+
 def show(title,response):
     import streamlit as st
     st.markdown(f"<h1 style='color: white;'>{title}</h1>", unsafe_allow_html=True)
@@ -32,19 +37,22 @@ def show(title,response):
         padding: 5px;
         border-radius: 20px;
         box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+        color: black !important;
         margin: 5px auto;
         width: 120%; /* Adjust width as needed */
-        height: 5000px; /* Adjust height as needed */
+        height: auto; /* Adjust height as needed */
+    }
+    h1, h2, h3, h4, h5, h6 {
+        color: black !important; /* Ensure text color is black */
     }
     </style>
-    """,
-        unsafe_allow_html=True,
-    )
+    """, unsafe_allow_html=True)
+
     import markdown
     html_markdown = markdown.markdown(response)
     # Add text box
-    html_content = f'<div class="text-box"><h4 style="color:black;">{html_markdown}</h4></div>'
-
+    html_content = f'<div class="text-box"><h4>{html_markdown}</h4></div>'
+   
     # Adding the HTML content to Streamlit using st.markdown
     st.markdown(html_content, unsafe_allow_html=True)
 
@@ -61,51 +69,58 @@ page_options = {
 
 def main():
     st.title("Welcome to Code Compass")
+    st.sidebar.title("Code Compass Options")
+
+    page = st.sidebar.radio("Go to", list(page_options.keys()))
+
+    if page == "Home 🏠":
+        st.session_state.answers = None  
+        st.session_state.content = None     
+
+    if st.session_state.answers is None:
+        st.session_state.answers = asking_questions()
 
     content_dict = {
         "RoadMap": None,
         "Explain": None,
         "assignment": None,
     }
-
-    answers = None
     
-    answers = asking_questions() 
-    Topic_query = f'Topic:{answers["topic_today"]} Language: {answers["language"]}, Experience Level: {answers["experience_level"]}, Learning_method: {answers["learning_methods"]}'
-    assignment_query = f'Language: {answers["language"]},Concept: {answers["topic_today"]}, Learning Goal: {answers["learning_goal"]}, Experience Level: {answers["experience_level"]}'
-    roadmap_query = f'Language: {answers["language"]},Experience Level: {answers["experience_level"]}, prior Experience: {answers["prior_experience"]}, Learning_method: {answers["learning_methods"]}, time_committment: {answers["time_commitment"]}'
 
+    Topic_query = f'Topic:{st.session_state.answers["topic_today"]} Language: {st.session_state.answers["language"]}, Experience Level: {st.session_state.answers["experience_level"]}, Learning_method: {st.session_state.answers["learning_methods"]}'
+    assignment_query = f'Language: {st.session_state.answers["language"]}, Concept: {st.session_state.answers["topic_today"]}, Learning Goal: {st.session_state.answers["learning_goal"]}, Experience Level: {st.session_state.answers["experience_level"]}'
+    roadmap_query = f'Language: {st.session_state.answers["language"]}, Experience Level: {st.session_state.answers["experience_level"]}, prior Experience: {st.session_state.answers["prior_experience"]}, Learning_method: {st.session_state.answers["learning_methods"]}, time_commitment: {st.session_state.answers["time_commitment"]}'
 
-    st.sidebar.title("Code Compass Options")
+    if st.session_state.answers is None:
+        st.write("Please fill in the inputs to proceed.")
+        return
 
-   
-    page = st.sidebar.radio("Go to", list(page_options.keys()))
-
-    if page == "Home 🏠":
-        pass    
-
-    elif page == "RoadMap Generator 🗺️":
-        if content_dict["RoadMap"] is None:
+    if page == "RoadMap Generator 🗺️":
+        if st.session_state.content is None or st.session_state.content.get("RoadMap") is None:
             response = LearningPath.roadmap(roadmap_query)
-            show("RoadMap Generator 🗺️",response)
-            content_dict["RoadMap"]=response
-            
+            show("RoadMap Generator 🗺️", response)
+            st.session_state.content = {"RoadMap": response}
         else:
-            show("RoadMap Generator 🗺️",content_dict["RoadMap"])
+            show("RoadMap Generator 🗺️", st.session_state.content["RoadMap"])
 
     # elif page == "Topic Explainer 📚":
-    #     if content_dict["Explain"] is None:
-    #         content_dict["Explain"] = topic_explanation(Topic_query) 
-    #     show("Topic Explainer 📚",content_dict["Explain"])
+    #     if st.session_state.content is None or st.session_state.content.get("Explain") is None:
+    #         response = topic_explanation(Topic_query)
+    #         show("Topic Explainer 📚", response)
+    #         st.session_state.content = {"Explain": response}
+    #     else:
+    #         show("Topic Explainer 📚", st.session_state.content["Explain"])
 
     # elif page == "Assignment Generator 📝":
-    #     if content_dict["assignment"] is None:
-    #         content_dict["assignzment"] = assignment.create_assignment(assignment_query)
-    #     show("Assignment Generator 📝",content_dict["assignment"])
+    #     if st.session_state.content is None or st.session_state.content.get("assignment") is None:
+    #         response = assignment.create_assignment(assignment_query)
+    #         show("Assignment Generator 📝", response)
+    #         st.session_state.content = {"assignment": response}
+    #     else:
+    #         show("Assignment Generator 📝", st.session_state.content["assignment"])
 
     elif page == "Code Checker ✔️":
         code_checker.show()
-
 if __name__ == "__main__":
     main()
 
