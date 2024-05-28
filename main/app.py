@@ -1,97 +1,87 @@
 import streamlit as st
+import markdown
+from routes.question import asking_questions
+from routes import LearningPath
+from routes.explain import topic_explanation
+from routes import assignment
+from routes import code_checker
+from routes.quiz import quiz_page
 
-from pages.question import asking_questions
 
-from pages import LearningPath
-from pages.explain import topic_explanation
-from pages import assignment
-from pages import code_checker
-
+# Initialize session states if they don't exist
 if 'answers' not in st.session_state:
     st.session_state.answers = None
 if 'content' not in st.session_state:
     st.session_state.content = None
 
-def show(title,response):
-    import streamlit as st
+def show(title, response):
     st.markdown(f"<h1 style='color: white;'>{title}</h1>", unsafe_allow_html=True)
-    # Add background image
-    #https://wallpapercave.com/wp/wp6763962.png
-
-    page_element="""
+    page_element = """
     <style>
-    [data-testid="stAppViewContainer"]{
-    background-image: url("https://plus.unsplash.com/premium_vector-1711987875549-d0ba34191e70?bg=FFFFFF&w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjl8fGNvZGluZ3xlbnwwfHwwfHx8MA%3D%3D");
-    background-size: cover;
+    [data-testid="stAppViewContainer"] {
+        background-image: url("https://www.reddit.com/media?url=https%3A%2F%2Fi.redd.it%2Fy1lkn6e7ocq21.jpg");
+        background-size: cover;
     }
     </style>
     """
-
     st.markdown(page_element, unsafe_allow_html=True)
-
-    # Add transparent white overlay and text box
     st.markdown(
         """
     <style>
     .text-box {
-        background-color: rgba(255, 255, 255, 0.9); /* Adjust opacity here */
+        background-color: rgba(255, 255, 255, 0.9);
         padding: 15px 15px 15px 20px;
         border-radius: 20px;
         box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
         color: black !important;
         margin: 5px auto;
-        width: 120%; /* Adjust width as needed */
-        height: auto; /* Adjust height as needed */
+        width: 120%;
+        height: auto;
     }
     .text-box h1, h2, h3, h4, h5, h6 {
-        color: black !important; /* Ensure text color is black */
+        color: black !important;
     }
     </style>
-    """, unsafe_allow_html=True)
+    """, unsafe_allow_html=True
+    )
 
-    import markdown
     html_markdown = markdown.markdown(response)
-    # Add text box
     html_content = f'<div class="text-box"><h4>{html_markdown}</h4></div>'
-   
-    # Adding the HTML content to Streamlit using st.markdown
     st.markdown(html_content, unsafe_allow_html=True)
-
-
-import streamlit as st
-
-page_options = {
-    "Home 🏠": "Home",
-    "RoadMap Generator 🗺️": "RoadMap",
-    "Topic Explainer 📚": "Topic",
-    "Assignment Generator 📝": "Assignment",
-    "Code Checker ✔️": "Code Checker"
-}
 
 def main():
     st.sidebar.title("Code Compass Options")
+
+    page_options = {
+        "Home 🏠": "Home",
+        "RoadMap Generator 🗺️": "RoadMap",
+        "Topic Explainer 📚": "Topic",
+        "Assignment Generator 📝": "Assignment",
+        "Quiz Time 🧠": "Quiz",
+        "Learning Resources 📚": "Resources",
+        "Code Checker ✔️": "Code Checker"
+    }
 
     page = st.sidebar.radio("Go to", list(page_options.keys()))
 
     if page == "Home 🏠":
         st.title("Welcome to Code Compass")
-        st.session_state.answers = None  
-        st.session_state.content = None     
+        st.session_state.answers = None
+        st.session_state.content = None
 
     if st.session_state.answers is None:
         st.session_state.answers = asking_questions()
     
-
-    Topic_query = f'Topic:{st.session_state.answers["topic_today"]} Language: {st.session_state.answers["language"]}, Experience Level: {st.session_state.answers["experience_level"]}, Learning_method: {st.session_state.answers["learning_methods"]}'
+    Topic_query = f'Topic: {st.session_state.answers["topic_today"]}, Language: {st.session_state.answers["language"]}, Experience Level: {st.session_state.answers["experience_level"]}, Learning method: {st.session_state.answers["learning_methods"]}'
     assignment_query = f'Language: {st.session_state.answers["language"]}, Concept: {st.session_state.answers["topic_today"]}, Learning Goal: {st.session_state.answers["learning_goal"]}, Experience Level: {st.session_state.answers["experience_level"]}'
-    roadmap_query = f'Language: {st.session_state.answers["language"]}, Experience Level: {st.session_state.answers["experience_level"]}, prior Experience: {st.session_state.answers["prior_experience"]}, Learning_method: {st.session_state.answers["learning_methods"]}, time_commitment: {st.session_state.answers["time_commitment"]}'
+    roadmap_query = f'Language: {st.session_state.answers["language"]}, Experience Level: {st.session_state.answers["experience_level"]}, prior Experience: {st.session_state.answers["prior_experience"]}, Learning method: {st.session_state.answers["learning_methods"]}, time commitment: {st.session_state.answers["time_commitment"]}'
 
     if st.session_state.answers is None:
         st.write("Please fill in the inputs to proceed.")
         return
 
     if page == "RoadMap Generator 🗺️":
-        if st.session_state.content is None or st.session_state.content.get("RoadMap") is None:
+        if st.session_state.content is None or "RoadMap" not in st.session_state.content:
             response = LearningPath.roadmap(roadmap_query)
             show("RoadMap Generator 🗺️", response)
             st.session_state.content = {"RoadMap": response}
@@ -99,7 +89,7 @@ def main():
             show("RoadMap Generator 🗺️", st.session_state.content["RoadMap"])
 
     elif page == "Topic Explainer 📚":
-        if st.session_state.content is None or st.session_state.content.get("Explain") is None:
+        if st.session_state.content is None or "Explain" not in st.session_state.content:
             response = topic_explanation(Topic_query)
             show("Topic Explainer 📚", response)
             st.session_state.content = {"Explain": response}
@@ -107,7 +97,7 @@ def main():
             show("Topic Explainer 📚", st.session_state.content["Explain"])
 
     elif page == "Assignment Generator 📝":
-        if st.session_state.content is None or st.session_state.content.get("assignment") is None:
+        if st.session_state.content is None or "assignment" not in st.session_state.content:
             response = assignment.create_assignment(assignment_query)
             show("Assignment Generator 📝", response)
             st.session_state.content = {"assignment": response}
@@ -116,6 +106,13 @@ def main():
 
     elif page == "Code Checker ✔️":
         code_checker.show()
+    
+    elif page == "Quiz Time 🧠":
+        quiz_page()
+
+    elif page == "Learning Resources 📚":
+        # show_resources()
+        pass
+
 if __name__ == "__main__":
     main()
-
