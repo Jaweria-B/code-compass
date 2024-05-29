@@ -1,7 +1,7 @@
 import streamlit as st
 
 def about_page():
-    st.markdown("<h1 style='color: white;'>About Code Compass</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='color: black;'>About Code Compass 📖</h1>", unsafe_allow_html=True)
     st.markdown(
         """
         <div style="background-color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 15px; box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);">

@@ -63,7 +63,7 @@ def main():
         "Quiz Time 🧠": "Quiz",
         "Learning Resources 📚": "Resources",
         "Code Checker ✔️": "Code Checker",
-        "About 📖": "About"
+        "About Us 📖": "About"
     }
 
     page = st.sidebar.radio("Go to", list(page_options.keys()))
