@@ -52,40 +52,15 @@ Welcome to Code Compass, your ultimate companion for navigating the world of pro
 
 ## Screenshots
 
-![Home Page](https://source.unsplash.com/featured/?
+### Home Page
+<img src="./assets/home-page.png" width="auto" height="600">
 
-coding)
-![RoadMap Generator](https://source.unsplash.com/featured/?roadmap)
-![Topic Explainer](https://source.unsplash.com/featured/?explain)
-![Assignment Generator](https://source.unsplash.com/featured/?assignment)
-![Quiz Time](https://source.unsplash.com/featured/?quiz)
-![Learning Resources](https://source.unsplash.com/featured/?resources)
-![Code Checker](https://source.unsplash.com/featured/?code-checker)
-![About Page](https://source.unsplash.com/featured/?about)
+### Roadmap Generator Page
+<img src="./assets/learning-path-page.png" width="600" height="600">
 
-## Contributing
+### Resources Page
+<img src="./assets/resources-page.png" width="auto" height="600">
 
-We welcome contributions! Please read our [Contributing Guide](CONTRIBUTING.md) for details on how to get started.
+### Roadmap Generator Page
+<img src="./assets/topic-explanation-page.png" width="600" height="700">
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-If you have any questions, feel free to reach out to us at support@codecompass.com.
-```
-
-### 4. **Enhance UI and Set Title & Icon**
-
-Ensure the `st.set_page_config` call in your `app.py` is correctly setting the title and icon:
-```python
-st.set_page_config(page_title="Code Compass", page_icon=":compass:")
-```
-
-### Final Notes:
-
-- **Dependencies:** Make sure your `requirements.txt` includes all necessary libraries.
-- **Images in `README.md`:** Update the URLs to actual images or replace them with your own hosted images.
-- **Styling:** You can add more CSS to improve the appearance of your app further.
-- **Testing:** Thoroughly test each page to ensure it works as expected.
