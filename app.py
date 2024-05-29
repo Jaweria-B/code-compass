@@ -6,7 +6,8 @@ from routes.explain import topic_explanation
 from routes import assignment
 from routes import code_checker
 from routes.quiz import quiz_page
-
+from routes.resources import resources_page
+from routes.about import about_page 
 
 # Initialize session states if they don't exist
 if 'answers' not in st.session_state:
@@ -50,6 +51,8 @@ def show(title, response):
     st.markdown(html_content, unsafe_allow_html=True)
 
 def main():
+    st.set_page_config(page_title="Code Compass", page_icon=":compass:")
+
     st.sidebar.title("Code Compass Options")
 
     page_options = {
@@ -59,13 +62,14 @@ def main():
         "Assignment Generator 📝": "Assignment",
         "Quiz Time 🧠": "Quiz",
         "Learning Resources 📚": "Resources",
-        "Code Checker ✔️": "Code Checker"
+        "Code Checker ✔️": "Code Checker",
+        "About 📖": "About"
     }
 
     page = st.sidebar.radio("Go to", list(page_options.keys()))
 
     if page == "Home 🏠":
-        st.title("Welcome to Code Compass")
+        st.title("Welcome to Code Compass :compass:")
         st.session_state.answers = None
         st.session_state.content = None
 
@@ -111,8 +115,10 @@ def main():
         quiz_page()
 
     elif page == "Learning Resources 📚":
-        # show_resources()
-        pass
+        resources_page()
+    
+    elif page == "About 📖":
+        about_page()
 
 if __name__ == "__main__":
     main()

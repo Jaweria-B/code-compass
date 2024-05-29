@@ -57,6 +57,7 @@ def get_quiz_data(text):
         )
         
         quiz_data = eval(completion.choices[0].message.content)
+        quiz_data_correct = eval(completion.choices[0].message.content)
         
         # Shuffle options once and store them in session state
         for question_set in quiz_data:
@@ -64,7 +65,7 @@ def get_quiz_data(text):
             random.shuffle(options)
             question_set[1:] = options
 
-        return quiz_data
+        return [quiz_data, quiz_data_correct]
 
     except Exception as e:
         if "AuthenticationError" in str(e):
@@ -74,7 +75,7 @@ def get_quiz_data(text):
             st.error(f"An error occurred: {str(e)}")
             st.stop()
 
-def display_quiz(quiz_data):
+def display_quiz(quiz_data, quiz_data_correct):
     st.title("Quiz Time!")
     st.write("Please select the correct answers:")
 
@@ -95,7 +96,7 @@ def display_quiz(quiz_data):
         st.session_state.user_answers[idx] = user_answer
 
     if st.button("Submit"):
-        calculate_score(quiz_data, st.session_state.user_answers)
+        calculate_score(quiz_data_correct, st.session_state.user_answers)
 
 def calculate_score(quiz_data, user_answers):
     score = 0
@@ -113,17 +114,12 @@ def quiz_page():
     if st.button("Generate Quiz"):
         if text:
             with st.spinner("Generating quiz questions..."):
-                quiz_data = get_quiz_data(text)
+                generated_quiz_data = get_quiz_data(text)
+                quiz_data, quiz_data_correct = generated_quiz_data[0], generated_quiz_data[1]
                 if quiz_data:
                     st.session_state.quiz_data = quiz_data
-                    display_quiz(quiz_data)
+                    display_quiz(quiz_data, quiz_data_correct)
                 else:
                     st.error("Failed to generate quiz questions.")
         else:
             st.error("Please provide the text.")
-
-    if 'quiz_data' in st.session_state:
-        display_quiz(st.session_state.quiz_data)
-
-if __name__ == "__main__":
-    quiz_page()
