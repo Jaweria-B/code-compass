@@ -20,7 +20,7 @@ def show(title, response):
     page_element = """
     <style>
     [data-testid="stAppViewContainer"] {
-        background-image: url("https://www.reddit.com/media?url=https%3A%2F%2Fi.redd.it%2Fy1lkn6e7ocq21.jpg");
+        background-image: url("https://wallpaperboat.com/wp-content/uploads/2019/10/coding-16.jpg");
         background-size: cover;
     }
     </style>
