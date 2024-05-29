@@ -82,67 +82,22 @@ def get_learning_resources(topic, experience_level, learning_method):
         return None
 
 def fetch_learning_resources(topic, experience_level, learning_method):
-    # response = get_learning_resources(topic, experience_level, learning_method)
-    # if response:
-    #     st.write("Raw response from API:")
-    #     st.write(response)  # Display the raw response for debugging purposes
-    #     try:
-    #         response_json = json.loads(response)
-    #         return response_json
-    #     except json.JSONDecodeError as e:
-    #         st.error("Failed to parse the response as JSON.")
-    #         st.write("Response received:")
-    #         st.write(response)
-    #         return None
-    # else:
-    #     st.error("No response received from the API.")
-    #     return None
+    response = get_learning_resources(topic, experience_level, learning_method)
+    if response:
+        st.write("Raw response from API:")
+        st.write(response)  # Display the raw response for debugging purposes
+        try:
+            response_json = json.loads(response)
+            return response_json
+        except json.JSONDecodeError as e:
+            st.error("Failed to parse the response as JSON.")
+            st.write("Response received:")
+            st.write(response)
+            return None
+    else:
+        st.error("No response received from the API.")
+        return None
 
-    response_json = {
-        "youtube": [
-            {
-                "title": "Object-Oriented Programming in 7 minutes | Mosh",
-                "description": "A concise introduction to the principles of OOP by Mosh Hamedani, ideal for intermediates looking to refresh their knowledge.",
-                "link": "https://www.youtube.com/watch?v=pTB0EiLXUC8"
-            },
-            {
-                "title": "OOP in Python: A Practical Guide",
-                "description": "This tutorial covers object-oriented programming principles in Python, making it great for those who prefer learning by doing.",
-                "link": "https://www.youtube.com/watch?v=JeznW_7DlB0"
-            }
-        ],
-        "coursera": [
-            {
-                "title": "Object Oriented Programming in Java",
-                "description": "Offered by the University of California San Diego, this course dives deep into OOP concepts using Java, including hands-on practice.",
-                "link": "https://www.coursera.org/specializations/java-object-oriented"
-            },
-            {
-                "title": "Object-Oriented Data Structures in C++",
-                "description": "This course, provided by the University of Illinois, teaches OOP through C++ and is geared towards those with some programming background.",
-                "link": "https://www.coursera.org/learn/cs-fundamentals-1"
-            }
-        ],
-        "websites": [
-            {
-                "title": "Exercism",
-                "description": "Exercism provides coding challenges in various programming languages, allowing you to practice OOP concepts through hands-on exercises.",
-                "link": "https://exercism.io/tracks"
-            },
-            {
-                "title": "Object-Oriented Design",
-                "description": "An online resource offering tutorials and exercises on OOP design patterns and principles, suitable for intermediate learners.",
-                "link": "https://www.oodesign.com/"
-            },
-            {
-                "title": "Refactoring.Guru",
-                "description": "Learn about OOP design patterns, principles, and refactoring through easy-to-understand examples and diagrams.",
-                "link": "https://refactoring.guru/design-patterns"
-            }
-        ]
-    }
-
-    return response_json
 
 def resources_page():
     st.title("Learning Resource Finder 📚")
@@ -154,7 +109,6 @@ def resources_page():
     if st.button("Find Resources"):
         with st.spinner("Fetching learning resources..."):
             resources = fetch_learning_resources(topic, experience_level, learning_method)
-            # print(resources)
 
             if resources:
                 st.header("YouTube Videos")

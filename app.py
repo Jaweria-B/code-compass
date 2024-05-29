@@ -117,7 +117,7 @@ def main():
     elif page == "Learning Resources 📚":
         resources_page()
     
-    elif page == "About 📖":
+    elif page == "About Us 📖":
         about_page()
 
 if __name__ == "__main__":
